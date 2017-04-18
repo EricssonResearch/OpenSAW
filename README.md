@@ -23,10 +23,10 @@ concolic execution to find bugs in compiled programs.
  OpenSAW is written in Python and allows the concolic execution engine to be replaced easily, letting users
  test how well their own concolic execution implementation performs in comparison with others.
 ### Setup
-See [```docs/SETUP.md```](docs/SETUP.md).
+See [```docs/SETUP.md```](docs/SETUP.md)
 
 ### Usage
-#####WARNING: Do not run OpenSAW on malicious code. The executable you provide is executed with the same permissions as OpenSAW.
+##### WARNING: Do not run OpenSAW on malicious code. The executable you provide is executed with the same permissions as OpenSAW.
 Running OpenSAW on a binary is trivial in the OpenSAW virtual machine.   
 After you are connected to the machine, run the command
 ```sh
