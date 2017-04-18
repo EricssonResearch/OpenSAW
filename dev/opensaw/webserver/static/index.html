@@ -1,0 +1,61 @@
+<!--
+    Open Security Analysis Workbench (OpenSAW) - A concolic security test tool
+    Copyright (C) 2016 Ericsson AB
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; version 2 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-->
+<!doctype html>
+<html>
+  <head>
+    <title>OpenSAW</title>
+    <link rel="stylesheet" href="monitor.css" media="screen" charset="utf-8">
+  </head>
+  <body>
+    <div class="top-bar">
+      <div class="title">OpenSAW</div>
+      <div class="status-bar right">
+        <button onclick="window.location='tracegraph/index.html';">Trace Graph</button>
+        <button id="resume-button">Stop</button>
+      </div>
+    </div>
+
+    <div class="content center">
+      <div class="perf clear-fix">
+        <div id="perf-stats" class="half left"></div>
+
+        <div class="half right">
+          <canvas id="perf-chart" class="block center" width="300" height="200"></canvas>
+        </div>
+      </div>
+
+      <div class="coverage clear-fix">
+        <canvas id="coverage-chart" class="left" width="600" height="400"></canvas>
+        <div id="coverage-legend" class="left legend"></div>
+      </div>
+
+      <div class="clear-fix">
+        <div id="crash-legend" class="half left legend">
+        </div>
+
+        <div class="half right">
+          <canvas id="crash-chart" class="block center" width="300" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.26.1/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+    <script src="monitor.js" type="text/javascript"></script>
+  </body>
+</html>

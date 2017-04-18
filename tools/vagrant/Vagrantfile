@@ -1,0 +1,77 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+=begin
+    Open Security Analysis Workbench (OpenSAW) - A concolic security test tool
+    Copyright (C) 2016 Ericsson AB
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; version 2 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+=end
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  #Use ubuntu/precise32 as starting box
+  config.vm.box = "ubuntu/precise32"
+  config.vm.hostname = "OpenSAW"
+  config.vm.define "OpenSAW" do |t|
+  end
+
+  #Add forwarding for web-ui
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+
+  #Setup virtualbox
+  config.vm.provider "virtualbox" do |v|
+    #Disable AVX and AVX2 as iltrans cannot handle ymm0,.. registers
+    v.customize ["setextradata", :id, "VBoxInternal/CPUM/IsaExts/AVX2", "0"]
+    v.customize ["setextradata", :id, "VBoxInternal/CPUM/IsaExts/AVX", "0"]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
+
+    #TODO: Automate?
+    v.memory = 1024
+    v.cpus = 1
+  end
+
+  #Setup the box
+  config.vm.provision "shell", inline: <<-SHELL
+    #Install Open-SAW
+    cp -R /vagrant/OpenSAW/ /opt/OpenSAW
+    mv /opt/OpenSAW/dev/test /home/vagrant/opensaw_samples
+    chown -R vagrant /home/vagrant/opensaw_samples
+    chown -R vagrant /opt/OpenSAW
+
+    #Install pin
+    wget http://software.intel.com/sites/landingpage/pintool/downloads/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux.tar.gz -P /tmp/
+    tar xzvf /tmp/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux.tar.gz -C /opt
+
+    #Install STP, ipython and iltrans dependencies
+    add-apt-repository -y ppa:simple-theorem-prover
+    apt-get update
+    apt-get install --force-yes -y ipython stp libprotobuf7 libcamomile-ocaml-data python-py python-faulthandler
+
+    #Configure machine
+    echo "PATH=\$PATH:/opt/OpenSAW/tools/bin/:/opt/OpenSAW-tools/:/opt/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux/" >> /home/vagrant/.bashrc
+    echo "PYTHONPATH=\$PYTHONPATH:/opt/OpenSAW/dev" >> /home/vagrant/.bashrc
+    echo "export PYTHONPATH" >> /home/vagrant/.bashrc
+    echo "kernel.yama.ptrace_scope = 0" > /etc/sysctl.d/10-ptrace.conf
+    echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
+    echo 0 > /proc/sys/kernel/randomize_va_space
+    echo 0 > /proc/sys/kernel/yama/ptrace_scope
+
+    /vagrant/OpenSAW/tools/bin/get_bap.sh
+    /vagrant/OpenSAW/tools/bin/build.sh
+  SHELL
+end

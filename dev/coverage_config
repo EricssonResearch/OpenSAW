@@ -1,0 +1,12 @@
+[run]
+branch = True
+omit =
+  **/__main__.py
+  **/__init__.py
+  **/*_test.py
+  opensaw/utils/mazes.py
+  opensaw/utils/viewer.py
+  opensaw/utils/servers.py
+
+[html]
+directory = coverage

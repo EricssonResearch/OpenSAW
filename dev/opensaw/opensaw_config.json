@@ -1,0 +1,11 @@
+{
+  "pin": "/opt/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux/pin",
+  "bap": "/opt/OpenSAW-tools/iltrans",
+  "pinTool": "/opt/OpenSAW-tools/gentrace.so",
+  "ranking": "U",
+  "web_server": true,
+  "fast_exit": true,
+  "check_stack_writes": true,
+  "checkFaults": true
+}
+
