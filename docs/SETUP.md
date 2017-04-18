@@ -19,7 +19,7 @@ Running OpenSAW
 ===============
 The preferred way of running OpenSAW is to use Vagrant to setup a virtual machine.
 Another option is to run a provided virtual machine image directly. Both methods are described in this document.
-When you are connected to the machine, read [```docs/Using OpenSAW.md```](Using OpenSAW.md)
+When you are connected to the machine, read [```docs/Using OpenSAW.md```](Using%20OpenSAW.md)
 ## Vagrant
 The setup has been tested on Windows 7 with VirtualBox 5.0.24 and Vagrant 1.8.5 but should also work on GNU/Linux and OS X.
 
@@ -31,13 +31,19 @@ vagrant and virtualbox that matches your host machines OS.
 Vagrant can be found here: https://www.vagrantup.com/downloads.html  
 VirtualBox can be found here: https://www.virtualbox.org/wiki/Downloads
 
-After both of these are installed, place the OpenSAW.tar.bz2
-in an empty folder.
-
-In this folder run
+After both of these are installed, create a new folder and 
+clone the OpenSAW repository into this folder using
 ```sh
-tar xjvf OpenSAW.tar.bz2
-cp OpenSAW/tools/vagrant/Vagrantfile .
+$ mkdir OpenSAW_VM
+$ cd OpenSAW_VM
+$ git clone https://github.com/EricssonResearch/OpenSAW.git
+```
+ 
+ After the repository is successfully cloned, copy the vagrant file into the current
+ directory.
+ 
+```sh
+$ cp OpenSAW/tools/vagrant/Vagrantfile .
 ```
 
 Your structure should look like
@@ -49,7 +55,7 @@ OpenSAW/  Vagrantfile
 To download an Ubuntu virtual machine, download PIN, compile the iltrans and pintool
 and configure OpenSAW simply run the command.
 ```sh
-vagrant up
+$ vagrant up
 ```
 This prepares and launches the virtual machine,
 the first time this command can take around 15 minutes.
@@ -59,7 +65,7 @@ the machine without notification. Check the VirtualBox UI if nothing is happenin
 When vagrant up has finished, a new virtual machine has been prepared for you. 
 Connect to the virtual machine by running  
 ```sh
-vagrant ssh
+$ vagrant ssh
 ```
 If you do not have a ssh client installed vagrant will
 give you suggestions on how to proceed. If you have issues with the
@@ -70,15 +76,15 @@ Note that the folder containing `Vagrantfile` will be mounted read/write on the 
 
 To suspend the machine run
 ```sh
-vagrant suspend
+$ vagrant suspend
 ```
 To halt the machine run
 ```sh
-vagrant halt
+$ vagrant halt
 ```
 And to remove the machine completely and all the files on it run
 ```sh
-vagrant destroy
+$ vagrant destroy
 ```
 
 After this initial setup you might want to modify the lines
@@ -86,7 +92,7 @@ After this initial setup you might want to modify the lines
     v.memory = 768
     v.cpus = 1
 ```
-in the `Vagrantfile` to match your system. The changes take effect after running `vagrant reload` or `vagrant halt; vagrant up`
+in the `Vagrantfile` to match your system. The changes take effect after running `$ vagrant reload` or `$ vagrant halt; vagrant up`
 
 For more information on how to use vagrant see [https://www.vagrantup.com/docs/cli/](https://www.vagrantup.com/docs/cli/)
 
@@ -103,11 +109,3 @@ To use the private_key in PuTTY you need to convert the key using PuTTYgen,
 a tool available at the same location as PuTTY itself. Open the vagrant-generated 
 private_key using File->Load Private Key and make sure the file extension is not 
 set to ppk. Then save the private key in putty format.
-
-
-
-
-
-
-
-
