@@ -36,7 +36,7 @@ to launch OpenSAW on <executable> that takes a single file as input argument.
 OpenSAW will start with passing the file defined by <initial_input> to the program
 and then proceed to generate new inputs based on the trace created by this execution.
 
-See [```docs/Using OpenSAW.md```](docs/Using OpenSAW.md) for more details and information on how to track progress.
+See [```docs/Using OpenSAW.md```](docs/Using%20OpenSAW.md) for more details and information on how to track progress.
 
 ### Building your own search strategy
 One of the great features with OpenSAW is that it lets users quickly get their hands dirty and experiment with new 
