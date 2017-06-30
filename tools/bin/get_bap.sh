@@ -21,8 +21,10 @@ tar xzvf /opt/OpenSAW/tools/bap-0.7.tar.gz -C /opt
 ln -s /opt/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux /opt/bap-0.7/pin
 rm /opt/bap-0.7/pintraces/gentrace.cpp
 ln -s /opt/OpenSAW/dev/pintool/gentrace.cpp /opt/bap-0.7/pintraces/gentrace.cpp
-patch -p1 -d /opt/bap-0.7/ < /opt/OpenSAW/dev/pintool/makefile.patch
+
 
 add-apt-repository -y ppa:simple-theorem-prover
 apt-get update
 apt-get install -y zlib1g-dev build-essential ocaml libgmp-dev autoconf libpcre3-dev libcamomile-ocaml-dev camlidl ocaml-findlib camlp4-extra binutils-dev
+
+patch -p1 -d /opt/bap-0.7/ < /opt/OpenSAW/dev/pintool/makefile.patch
