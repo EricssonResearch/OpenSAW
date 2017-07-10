@@ -58,6 +58,8 @@ Vagrant.configure("2") do |config|
     tar xzvf /tmp/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux.tar.gz -C /opt
 
     #Install STP, ipython and iltrans dependencies
+    apt-get update
+    apt-get install --force-yes -y python-software-properties
     add-apt-repository -y ppa:simple-theorem-prover
     apt-get update
     apt-get install --force-yes -y ipython stp libprotobuf7 libcamomile-ocaml-data python-py python-faulthandler
