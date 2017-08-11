@@ -32,7 +32,7 @@ class Crashes(Semaphore):
         self.crashes = []
         self.start_time = time
 
-    def report(self, in_file, signal):
+    def report(self, in_file, signal, trace=[]):
         """
         Reports the crash caused by `in_file` resulting in `signal`.
         Also keeps track of the time since start.
@@ -41,7 +41,8 @@ class Crashes(Semaphore):
             self.crashes.append({
                 "file": in_file,
                 "signal": signal,
-                "time": time() - self.start_time
+                "time": time() - self.start_time,
+		"trace": trace
             })
 
     def to_json(self):

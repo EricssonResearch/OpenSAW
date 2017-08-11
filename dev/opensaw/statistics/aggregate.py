@@ -28,6 +28,7 @@ class Aggregate(object):
     def __init__(self):
         self.start = time()
         self.end = None
+        self.last_thread = self.start
         self.crashes = Crashes(self.start)
         self.coverage = Coverage(self.start)
         self.perf = DynamicPerformance()
@@ -35,12 +36,16 @@ class Aggregate(object):
     def complete(self):
         self.end = time()
 
+    def mark_thread_complete(self):
+        self.last_thread = time()
+
     def to_json(self):
         complete = self.end is not None
         end = self.end if complete else time()
 
         return {
             "time": end - self.start,
+            "time_last_thread": end - self.last_thread,
             "done": complete,
             "performance": self.perf,
             "crashes": self.crashes,

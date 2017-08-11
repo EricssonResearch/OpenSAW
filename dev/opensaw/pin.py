@@ -138,7 +138,9 @@ class Worker(object):
             parent_thread.task_done()
             return
 
-        
+        #Mark a thread finished in statistics.
+        self.statistics.mark_thread_complete()        
+
         if raw_trace.isSuccess() == False:
             logging.error("Got no trace from input: %s" % in_file)
             parent_thread.task_done()
@@ -217,7 +219,22 @@ class Worker(object):
             print(message)
             if self.options.singleError:
                 self.work.force_done()
-            self.statistics.crashes.report(raw_trace.getInputFile(), signal_number)
+            #Anders: Possibly naive assumption that the last node visited caused the crash
+            self.statistics.crashes.report(raw_trace.getInputFile(), signal_number, self.build_crash_trace(raw_trace))
+
+    def build_crash_trace(self, raw_trace):
+        ret = []
+        hashes = raw_trace.getBblHashes()
+        for h in hashes:
+            if not h in ret:
+                ret += [h]
+            else:
+                i = ret.index(h)
+                ret = ret[0:i+1]
+
+        for i,h in enumerate(ret):
+            ret[i] = str(h)
+        return ret
 
     def report_coverage(self, raw_trace):
         coverage = raw_trace.getCoverage()
