@@ -47,6 +47,7 @@ Vagrant.configure("2") do |config|
 
   #Setup the box
   config.vm.provision "shell", inline: <<-SHELL
+    set -e
     #Install Open-SAW
     cp -R /vagrant/OpenSAW/ /opt/OpenSAW
     mv /opt/OpenSAW/dev/test /home/vagrant/opensaw_samples
@@ -54,18 +55,23 @@ Vagrant.configure("2") do |config|
     chown -R vagrant /opt/OpenSAW
 
     #Install pin
-    wget http://software.intel.com/sites/landingpage/pintool/downloads/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux.tar.gz -P /tmp/
-    tar xzvf /tmp/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux.tar.gz -C /opt
-
+    wget -nv http://software.intel.com/sites/landingpage/pintool/downloads/pin-2.14-71313-gcc.4.4.7-linux.tar.gz -O /tmp/pin.tar.gz
+    mkdir /opt/pin
+    echo "Extracting Pin"
+    tar xzf /tmp/pin.tar.gz -C /opt/pin --strip-components 1
+    chown -R vagrant /opt/pin
+    
+    echo "Installing software"
     #Install STP, ipython and iltrans dependencies
-    apt-get update
-    apt-get install --force-yes -y python-software-properties
+    apt-get -q update
+    apt-get -q install --force-yes -y python-software-properties
     add-apt-repository -y ppa:simple-theorem-prover
-    apt-get update
-    apt-get install --force-yes -y ipython stp libprotobuf7 libcamomile-ocaml-data python-py python-faulthandler
+    apt-get -q update
+    apt-get -q install --force-yes -y ipython stp libprotobuf7 libcamomile-ocaml-data python-py python-faulthandler
 
     #Configure machine
-    echo "PATH=\$PATH:/opt/OpenSAW/tools/bin/:/opt/OpenSAW-tools/:/opt/pin-2.11-49306-gcc.3.4.6-ia32_intel64-linux/" >> /home/vagrant/.bashrc
+    echo "Setting up system configuration"
+    echo "PATH=\$PATH:/opt/OpenSAW/tools/bin/:/opt/OpenSAW-tools/:/opt/pin/" >> /home/vagrant/.bashrc
     echo "PYTHONPATH=\$PYTHONPATH:/opt/OpenSAW/dev" >> /home/vagrant/.bashrc
     echo "export PYTHONPATH" >> /home/vagrant/.bashrc
     echo "kernel.yama.ptrace_scope = 0" > /etc/sysctl.d/10-ptrace.conf
