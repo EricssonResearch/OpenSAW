@@ -41,7 +41,7 @@ $ git clone https://github.com/EricssonResearch/OpenSAW.git
 
 For Windows (tested on Windows 7) one could install GitHub Desktop and clone 
 the repository on a Windows folder. 
-Then all the commands below could be executed on an instance of a CMD windows in
+Then all the commands below could be executed on an instance of a CMD window in
 the appropriate folder. 
  
  After the repository is successfully cloned, copy the vagrant file into the current
