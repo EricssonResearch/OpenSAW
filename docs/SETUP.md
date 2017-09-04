@@ -38,6 +38,11 @@ $ mkdir OpenSAW_VM
 $ cd OpenSAW_VM
 $ git clone https://github.com/EricssonResearch/OpenSAW.git
 ```
+
+For Windows (tested on Windows 7) one could install GitHub Desktop and clone 
+the repository on a Windows folder. 
+Then all the commands below could be executed on an instance of a CMD windows in
+the appropriate folder. 
  
  After the repository is successfully cloned, copy the vagrant file into the current
  directory.
@@ -46,10 +51,26 @@ $ git clone https://github.com/EricssonResearch/OpenSAW.git
 $ cp OpenSAW/tools/vagrant/Vagrantfile .
 ```
 
+or on Windows 7 assuming the OpenSAW repository in installed on `C:\Users\test\Documents\GitHub`
+```sh
+C:\Users\test\Documents\GitHub>copy OpenSAW\tools\vagrant\Vagrantfile .
+```
+
 Your structure should look like
 ```sh
 $ ls
 OpenSAW/  Vagrantfile
+```
+
+On Windows 7 the structure should look like
+```sh
+C:\Users\test\Documents\GitHub>dir
+...
+2017-09-01  11:23    <DIR>          .
+2017-09-01  11:23    <DIR>          ..
+2017-09-01  11:22    <DIR>          OpenSAW
+2017-09-01  11:22             3 410 Vagrantfile
+...
 ```
 
 To download an Ubuntu virtual machine, download PIN, compile the iltrans and pintool
@@ -61,6 +82,32 @@ This prepares and launches the virtual machine,
 the first time this command can take around 15 minutes.
 **_One word of warning; if you have less than 768MB ram free, virtualbox may pause
 the machine without notification. Check the VirtualBox UI if nothing is happening._**
+
+On a Windows 7 machine the command `vagrant up` invokes the PowerShell.
+Two possible problems that may come up are the following:
+
+a) The PowerShell executable is not included in the PATH environmental variable. 
+In this case you will receive a relevant error message.
+Open `Control Panel` -> `System And Security` -> `System` -> `Advanced System Settings` on the left -> 
+`Advanced` tab -> `Environment Variables`.
+From the `System variables` list choose the `Path` system variable and add the path to the PowerShell.
+On our machines the path is `C:\Windows\System32\WindowsPowerShell\v1.0`
+
+b) The PowerShell version may be old and the command `vagrant up` may hang without doing anything. 
+Check the PowerShell version by invoking the following command in a PowerShell.   
+```sh
+PS C:\> $PSVersionTable
+
+Name                           Value
+----                           -----
+PSVersion                      5.0.10586.117
+...
+```
+The `PSVersion` value should be 5.0.x or higher. If you need to install the new PowerShell you can find it 
+in the Windows Management Framework (WMF). Please check see the following link for your version of Windows and the 
+different versions of the WMF: 
+
+WMF: https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-windows-powershell?view=powershell-5.1
 
 When vagrant up has finished, a new virtual machine has been prepared for you. 
 Connect to the virtual machine by running  
